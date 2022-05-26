@@ -1,0 +1,56 @@
+.container{
+    -fx-background-color: #111111;
+    -fx-font-family: "Lucida Console";
+}
+.label{
+    -fx-text-fill: white;
+    -fx-font-size: 12;
+}
+.button{
+    -fx-background-color: #aca1a1;
+    -fx-text-fill: white;
+    -fx-background-radius: 60px;
+}
+.button:hover{
+    -fx-background-color: #ccc;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-background-radius: 60px;
+}
+.text-field{
+    -fx-text-fill: white;
+    -fx-control-inner-background: #111111;
+    -fx-border-color: white;
+    -fx-prompt-text-fill: white;
+}
+.list-view{
+    -fx-text-fill: white;
+    -fx-control-inner-background: #111111;
+    -fx-border-color: white;
+    -fx-prompt-text-fill: white;
+}
+.list-view .clipped-container{
+    -fx-text-fill: white;
+    -fx-control-inner-background: #111111;
+    -fx-border-color: white;
+    -fx-prompt-text-fill: white;
+}
+#cipherListView .indexed-cell:odd{
+    -fx-control-inner-background: #2f2b2b;
+}
+#cipherListView .indexed-cell:hover{
+    -fx-background-color: #ccc;
+    -fx-text-fill: rgb(62, 59, 59);
+    -fx-cursor: hand;
+}
+#cipherListView .list-cell:filled:selected:focused, #cipherListView .list-cell:filled:selected {
+    /* 3:, 4: */
+    -fx-background-color: #aaa;
+    -fx-text-fill: white; /* 5 */
+}
+#cipherListView .list-cell:empty{
+    -fx-background-color: #111;
+}
+#cipherListView .list-cell:empty:hover{
+    -fx-background-color: #111;
+}
