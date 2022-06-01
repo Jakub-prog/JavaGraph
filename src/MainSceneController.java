@@ -1,11 +1,12 @@
-import java.io.FilenameFilter;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import fileManager.savePopUp;
+import fileManager.*;
+import nodeManager.*;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -82,7 +83,7 @@ public class MainSceneController implements Initializable {
 
         int values[] = readFromArea();
 
-        generator.generate(values[0], values[1], "test.txt", false, values[2], values[3]);
+        generator.generate(values[0], values[1], values[2], values[3]);
     }
 
     @FXML
@@ -94,7 +95,7 @@ public class MainSceneController implements Initializable {
     void btnRedrawClicked(ActionEvent event) {
 
         int values[] = readFromArea();
-        generator.generate(values[0], values[1], "test.txt", false, values[2], values[3]);
+        generator.generate(values[0], values[1], values[2], values[3]);
         draw(values[0], values[1]);
 
     }
@@ -107,7 +108,10 @@ public class MainSceneController implements Initializable {
 
         if (fileName != null) {
             System.out.println("hiiiiiiiiiii");
-        } else {
+
+            saveNode saveGraph = new saveNode();
+            fileName += ".txt";
+            saveGraph.saveToFile(fileName, generator);
 
         }
     }
@@ -146,7 +150,7 @@ public class MainSceneController implements Initializable {
         gc.setFill(Color.WHITE);
         System.out.println("color set to black");
 
-        generator.generate(5, 5, "test.txt", false, 0, 10);
+        generator.generate(5, 5, 0, 10);
 
         draw(5, 5);
 

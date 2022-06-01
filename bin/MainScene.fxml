@@ -43,7 +43,7 @@
             </Button>
          </children>
       </FlowPane>
-      <Canvas fx:id="nodesArt" height="900.0" layoutY="72.0" width="900.0" />
+      <Canvas fx:id="nodesArt" height="900.0" layoutY="72.0" onMouseClicked="#canvasMouseClicked" width="900.0" />
       <Button fx:id="zoomIn" layoutX="939.0" layoutY="95.0" mnemonicParsing="false" onAction="#zoomInCanvas" text="+" />
       <Button fx:id="zoomOut" layoutX="977.0" layoutY="95.0" mnemonicParsing="false" onAction="#zoomOutCanvas" text="-" />
    </children>
