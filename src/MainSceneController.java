@@ -1,8 +1,11 @@
+import java.io.FilenameFilter;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import fileManager.savePopUp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -99,6 +102,14 @@ public class MainSceneController implements Initializable {
     @FXML
     void btnSaveClicked(ActionEvent event) {
 
+        savePopUp Popup = new savePopUp();
+        String fileName = Popup.display();
+
+        if (fileName != null) {
+            System.out.println("hiiiiiiiiiii");
+        } else {
+
+        }
     }
 
     @FXML
