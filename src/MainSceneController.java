@@ -72,6 +72,7 @@ public class MainSceneController implements Initializable {
     private double ovalWidth = 0;
 
     private Generator generator;
+    private openNode newGraph;
 
     @FXML
     void btnDeleteClicked(ActionEvent event) {
@@ -90,6 +91,16 @@ public class MainSceneController implements Initializable {
     @FXML
     void btnOpenFromFileClicked(ActionEvent event) {
 
+        savePopUp Popup = new savePopUp();
+        String fileName = Popup.display();
+
+        if (fileName != null) {
+
+            newGraph = new openNode();
+            fileName += ".txt";
+            newGraph.readFile(fileName);
+            draw(newGraph.getGraphSize()[0], newGraph.getGraphSize()[1]);
+        }
     }
 
     @FXML
@@ -153,7 +164,10 @@ public class MainSceneController implements Initializable {
         generator = new Generator();
         generator.generate(5, 5, 0, 10);
 
-        draw(5, 5);
+        newGraph = new openNode();
+        newGraph.readFile("example.txt");
+
+        draw(3, 3);
 
     }
 
@@ -165,9 +179,12 @@ public class MainSceneController implements Initializable {
         else if (numberOfColumns >= numberOfRows)
             ovalWidth = 900 / (numberOfColumns + numberOfColumns - 1);
 
-        List<Node> nodeList = generator.getNodeList();
+        // List<Node> nodeList = generator.getNodeList();
 
-        double range = generator.getGraphRange()[1] - generator.getGraphRange()[0];
+        // double range = generator.getGraphRange()[1] - generator.getGraphRange()[0];
+
+        List<Node> nodeList = newGraph.getNodeList();
+        double range = 10;
 
         for (int j = 0; j < numberOfColumns; j++) {
             for (int i = 0; i < numberOfRows; i++) {
