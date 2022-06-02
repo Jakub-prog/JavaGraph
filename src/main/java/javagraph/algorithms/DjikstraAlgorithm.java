@@ -1,72 +1,79 @@
 package javagraph.algorithms;
 
 import javagraph.nodeManager.Generator;
+import javagraph.nodeManager.GraphNode;
 
 import java.util.Arrays;
+import java.util.PriorityQueue;
 
 
 public class DjikstraAlgorithm {
 
-    private int readFromStream(int actNumber, int lineNumber, int colNumber) {
+    private static final int INFI = 99999999;
+    private double MaxWeight = 0;
+    public double[] distances;
+    public int[] list;
 
-        if (actNumber - lineNumber == colNumber)
-            return 3; // dol
-        if (actNumber - lineNumber == -colNumber)
-            return 2; // gora
-        if (actNumber - lineNumber == 1)
-            return 1; // prawo
-        if (actNumber - lineNumber == -1)
-            return 0; // lewo
-
-        return -1;
-
+    public double getMaxWeight() {
+        return MaxWeight;
     }
+ DJdraw
+    public void dj(int starting_node, Generator graph) {
 
-    private int convertNeighbourToIndex(int current, int neighbour, int size) {
-        int x = readFromStream(neighbour, current, size);
-        if (x == 3) {
-            neighbour = current + size;
-        }
-        if (x == 2) {
-            neighbour = current - size;
-        }
-        if (x == 1) {
-            neighbour = current + 1;
-        }
-        if (x == 0) {
-            neighbour = current - 1;
-        }
-        return neighbour;
-    }
+        int nodesAmount = graph.getGraphSize()[0] * graph.getGraphSize()[1];
+        distances = new double[graph.getGraphSize()[0] * graph.getGraphSize()[1]];
+        list = new int[nodesAmount];
 
-    public double[] dj(int start, Generator graph) {
-
-        double[] distances = new double[graph.getGraphSize()[0] * graph.getGraphSize()[1]];
         Arrays.fill(distances, Integer.MAX_VALUE);
-        distances[start] = 0;
-        boolean[] visited = new boolean[graph.getGraphSize()[0] * graph.getGraphSize()[1]];
 
-        while (true) {
-            double shortestDistance = Integer.MAX_VALUE;
-            int shortestIndex = -1;
-            for (int i = 0; i < graph.getGraphSize()[0] * graph.getGraphSize()[1]; i++) {
-                if (distances[i] < shortestDistance && !visited[i]) {
-                    shortestDistance = distances[i];
-                    shortestIndex = i;
-                }
+        PriorityQueue<GraphNode> que = new PriorityQueue<GraphNode>(nodesAmount, new NodeComparator());
+
+        for (int i = 0; i < nodesAmount; i++) {
+
+            distances[i] = -1 * INFI;
+            graph.getNodeList().get(i).distance = -1 * INFI;
+
+            list[i] = -1;
+
+            if (i == starting_node) {
+                distances[i] = 0;
+                que.add(graph.getNodeList().get(i));
             }
-            if (shortestIndex == -1) {
-//                System.out.println("Visited nodes: " + Arrays.toString(visited));
-                System.out.println("Currently lowest distances: " + Arrays.toString(distances));
-                return distances;
-            }
-            for (int i = 0; i < 4; i++) {
-                int current = graph.getNodeList().get(shortestIndex).getNodeNum(i);
-                if (current != -1 && distances[current] > distances[shortestIndex] + graph.getNodeList().get(shortestIndex).getNodeWeight(i)) {
-                    distances[current] = distances[shortestIndex] + graph.getNodeList().get(shortestIndex).getNodeWeight(i);
-                }
-            }
-            visited[shortestIndex] = true;
+
         }
+
+        while (!que.isEmpty()) {
+            GraphNode node = que.remove(); // zwracam node z najmniejszym distance (w)
+
+            if (node.visited)
+                continue;
+
+            for (int i = 0; i < 4; i++) {
+                if (node.getNodeNum(i) == -1 || node.visited) {
+                    continue;
+                }
+
+                double newDist = node.getNodeWeight(i) + -1.0 * distances[node.Id];
+
+                if (newDist < -1.0 * distances[node.getNodeNum(i)]) {
+                    distances[node.getNodeNum(i)] = newDist * -1;
+                    list[node.getNodeNum(i)] = node.Id; // dodaje potomka, aby potem wyswietlic scieżke
+                }
+
+                que.add(graph.getNodeList().get(node.getNodeNum(i)));
+            }
+
+            node.visited = true; // zwrocony node oznaczony jako odwiedzony
+
+        }
+
+        for (double d : distances) {
+            if (d * -1.0 > MaxWeight) {
+                MaxWeight = d * -1.0;
+            }
+        }
+
     }
+
+
 }

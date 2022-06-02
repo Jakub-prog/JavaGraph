@@ -121,7 +121,7 @@ public class openNode {
                     }
 
                 }
-                nodesArr.add(new GraphNode(weight, NodeNumber, false));
+                nodesArr.add(new GraphNode(weight, NodeNumber, false, lineNumber));
 
                 lineNumber++;
                 lineScanner.close();
