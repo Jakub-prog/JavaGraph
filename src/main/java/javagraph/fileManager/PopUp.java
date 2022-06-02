@@ -1,5 +1,10 @@
 package javagraph.fileManager;
 
+/**
+ * 
+ * @author Jakub Miętki
+ */
+
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,6 +38,9 @@ public abstract class PopUp {
         this.popUpTitle = popUpTitle;
     }
 
+    /*
+     * Displays small window with text area to parse file name
+     */
     public String display() throws IOException {
         Stage popupwindow = new Stage();
 

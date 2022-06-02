@@ -1,5 +1,10 @@
 package javagraph.fileManager;
 
+/**
+ * 
+ * @author Jakub Miętki
+ */
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,6 +35,9 @@ public class openNode {
         return graphRange;
     }
 
+    /*
+     * Reading files
+     */
     public void readFile(String fileName) throws IOException {
         try {
             File myObj = new File(fileName);
@@ -45,11 +53,9 @@ public class openNode {
                     throw new IOException("Bad file");
 
                 }
-                // System.out.println(graphSize[0]);
             }
             if (fileScanner.hasNextInt()) {
                 graphSize[1] = fileScanner.nextInt();
-                // System.out.println(graphSize[1]);
                 if (graphSize[0] < 0) {
                     fileScanner.close();
                     throw new IOException("Bad file");
@@ -83,14 +89,11 @@ public class openNode {
                         i = readFromStream(data, lineNumber, graphSize[0]);
                         doubleFlag = true;
 
-                        // System.out.println("data1: " + data + " " + i);
-
                         if (i != -1)
                             NodeNumber[i] = data;
 
                     } else if (lineScanner.hasNextDouble()) {
                         double Doubledata = lineScanner.nextDouble();
-                        // System.out.println("data: " + Doubledata + " " + doubleFlag);
 
                         if (Doubledata < 0 || !doubleFlag || Doubledata > MAX_RANGE) {
                             lineScanner.close();
@@ -113,7 +116,6 @@ public class openNode {
                         }
 
                     } else if (lineScanner.hasNext()) {
-                        // doubleFlag = true;
                         lineScanner.next();
 
                     }
@@ -138,6 +140,9 @@ public class openNode {
         }
     }
 
+    /*
+     * This function return index of Node list
+     */
     private int readFromStream(int actNumber, int lineNumber, int colNumber) {
 
         if (actNumber - lineNumber == colNumber)

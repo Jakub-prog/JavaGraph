@@ -1,5 +1,10 @@
 package javagraph.fileManager;
 
+/**
+ * 
+ * @author Jakub Miętki
+ */
+
 public class openPopUp extends PopUp {
     private String saveInfo = null;
     private String popUpTitle = "Open File";

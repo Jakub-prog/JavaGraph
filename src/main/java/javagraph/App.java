@@ -1,5 +1,10 @@
 package javagraph;
 
+/**
+ * 
+ * @author Jakub Miętki
+ */
+
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +17,6 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        // root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
         Scene scene = new Scene(loadFXML("MainScene"), 1015, 786);
 
         String css = this.getClass().getResource("aplication.css").toExternalForm();

@@ -1,5 +1,10 @@
 package javagraph.fileManager;
 
+/**
+ * 
+ * @author Jakub Miętki
+ */
+
 import javagraph.nodeManager.*;
 
 import java.io.FileWriter;

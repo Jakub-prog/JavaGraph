@@ -1,5 +1,10 @@
 package javagraph;
 
+/**
+ * 
+ * @author Jakub Miętki
+ */
+
 import java.io.IOException;
 import java.lang.reflect.InaccessibleObjectException;
 import java.net.URL;
@@ -284,6 +289,12 @@ public class MainSceneController implements Initializable {
         gc.setFill(Color.BLUE);
         gc.fillOval(i * 1.2 * ovalWidth, j * 1.2 * ovalWidth, ovalWidth, ovalWidth);
     }
+
+    /*
+     * Reading values (graph range and graph size) from
+     * text fields, after button action:
+     * generate, redraw
+     */
 
     public int[] readFromArea(String edgeRange, String gridSize) throws IOException {
 

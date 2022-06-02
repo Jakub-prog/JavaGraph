@@ -1,5 +1,10 @@
 package javagraph;
 
+/**
+ * 
+ * @author Jakub Miętki
+ */
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
