@@ -185,14 +185,6 @@ public class MainSceneController implements Initializable {
         double xposition = Math.floor(x / (ovalWidth * 1.2));
         double yposition = Math.floor(y / (ovalWidth * 1.2));
 
-        // System.out.println("Rozmiar x:" + x);
-        // System.out.println(xposition);
-
-        // System.out.println("Rozmiar y:" + y);
-        // System.out.println(yposition);
-
-        // changeNodeColor(xposition, yposition);
-
         int start = (int) (yposition * generator.getGraphSize()[0] + xposition);
         System.out.println(start);
 
@@ -244,7 +236,8 @@ public class MainSceneController implements Initializable {
             for (int b = 0; b < j; b++) {
                 Color c = Color.hsb(255 - (255 / max) * dj[i * b + a], 1.0, 1.0);
                 changeNodeColor(a, b, c);
-                System.out.println(dj[i * b + j] + " data " + (255 - (255 / max) * dj[i * b + j]));
+                // System.out.println(dj[i * b + j] + " data " + (255 - (255 / max) * dj[i * b +
+                // j]));
             }
 
         }
