@@ -100,6 +100,7 @@ public class MainSceneControllerTest {
 
     @Test
     void readFromArea_stringOrEmptyValues() {
+
         // given
         String edgeRange = " ";
         String gridSize = " ";
