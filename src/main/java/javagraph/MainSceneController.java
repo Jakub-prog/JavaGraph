@@ -96,7 +96,7 @@ public class MainSceneController implements Initializable {
     void btnDeleteClicked(ActionEvent event) {
         gc.clearRect(0, 0, nodesArt.getWidth(), nodesArt.getHeight());
         setMessage("Wyczyszczono");
-
+        nodesArr = null;
     }
 
     @FXML
@@ -108,6 +108,7 @@ public class MainSceneController implements Initializable {
             generator = new Generator();
             generator.generate(values[0], values[1], values[2], values[3]);
             setMessage("");
+            nodesArr = null;
 
         } catch (Exception e) {
             setMessage(e.getMessage());
@@ -153,6 +154,7 @@ public class MainSceneController implements Initializable {
             draw(generator.getGraphSize()[0], generator.getGraphSize()[1], generator.getNodeList(), range);
             setMessage("");
             DJ = false;
+            nodesArr = null;
 
         } catch (Exception e) {
             setMessage(e.getMessage());
@@ -202,26 +204,27 @@ public class MainSceneController implements Initializable {
 
         if (DJ) {
 
-            System.out.println(start);
-            System.out.println(":" + generator.getGraphSize()[0] + " " + generator.getGraphSize()[1]);
+            // System.out.println(start);
+            // System.out.println(":" + generator.getGraphSize()[0] + " " +
+            // generator.getGraphSize()[1]);
 
-            Color c = Color.WHITE;
+            Color c = Color.BLACK;
             changeNodeColor(start % generator.getGraphSize()[0], start / generator.getGraphSize()[1], c);
-            System.out.println(" - > " + start + " " + start / generator.getGraphSize()[0] + " "
-                    + start % generator.getGraphSize()[1]);
+            // System.out.println(" - > " + start + " " + start /
+            // generator.getGraphSize()[0] + " "
+            // + start % generator.getGraphSize()[1]);
             start = dj.list[start];
             while (start != -1) {
-                System.out.println(" - > " + start + " " + start % generator.getGraphSize()[0] + " "
-                        + start / generator.getGraphSize()[1]);
+                // System.out.println(" - > " + start + " " + start %
+                // generator.getGraphSize()[0] + " "
+                // + start / generator.getGraphSize()[1]);
                 changeNodeColor(start % generator.getGraphSize()[0], start / generator.getGraphSize()[1], c);
                 start = dj.list[start];
             }
 
             DJ = true;
-            startNode = start;
         } else {
             DJ = true;
-            startNode = start;
             dj = new DjikstraAlgorithm();
 
             dj.dj(start, generator);
@@ -371,7 +374,7 @@ public class MainSceneController implements Initializable {
             rV[2] = Integer.parseInt(edgeRangeValues[0]);
             rV[3] = Integer.parseInt(edgeRangeValues[1]);
 
-            System.out.println(rV[0] + " data " + rV[1]);
+            // System.out.println(rV[0] + " data " + rV[1]);
 
             return rV;
 
