@@ -88,6 +88,9 @@ public class MainSceneController implements Initializable {
 
     private Generator generator;
     private openNode newGraph;
+    private List<GraphNode> nodesArr;
+    private boolean DJ = false;
+    private DjikstraAlgorithm dj;
 
     @FXML
     void btnDeleteClicked(ActionEvent event) {
@@ -127,8 +130,10 @@ public class MainSceneController implements Initializable {
                 newGraph.readFile(fileName);
                 double range = newGraph.getGraphRange()[1] - newGraph.getGraphRange()[0];
 
-                draw(newGraph.getGraphSize()[0], newGraph.getGraphSize()[1], newGraph.getNodeList(), range);
+                nodesArr = newGraph.getNodeList();
 
+                draw(newGraph.getGraphSize()[0], newGraph.getGraphSize()[1], newGraph.getNodeList(), range);
+                DJ = false;
             }
             setMessage("");
 
@@ -147,6 +152,7 @@ public class MainSceneController implements Initializable {
             double range = generator.getGraphRange()[1] - generator.getGraphRange()[0];
             draw(generator.getGraphSize()[0], generator.getGraphSize()[1], generator.getNodeList(), range);
             setMessage("");
+            DJ = false;
 
         } catch (Exception e) {
             setMessage(e.getMessage());
@@ -186,13 +192,44 @@ public class MainSceneController implements Initializable {
         double yposition = Math.floor(y / (ovalWidth * 1.2));
 
         int start = (int) (yposition * generator.getGraphSize()[0] + xposition);
-        System.out.println(start);
 
-        DjikstraAlgorithm dj = new DjikstraAlgorithm();
+        if (nodesArr != null) {
+            generator.setGraphRange(newGraph.getGraphRange());
+            generator.setGraphSize(newGraph.getGraphSize());
+            generator.setNodeList(newGraph.getNodeList());
 
-        double[] djPath = dj.dj(start, generator);
+        }
 
-        drawDj(djPath, generator.getGraphSize()[0], generator.getGraphSize()[1], dj.getMaxWeight());
+        if (DJ) {
+
+            System.out.println(start);
+            System.out.println(":" + generator.getGraphSize()[0] + " " + generator.getGraphSize()[1]);
+
+            Color c = Color.WHITE;
+            changeNodeColor(start % generator.getGraphSize()[0], start / generator.getGraphSize()[1], c);
+            System.out.println(" - > " + start + " " + start / generator.getGraphSize()[0] + " "
+                    + start % generator.getGraphSize()[1]);
+            start = dj.list[start];
+            while (start != -1) {
+                System.out.println(" - > " + start + " " + start % generator.getGraphSize()[0] + " "
+                        + start / generator.getGraphSize()[1]);
+                changeNodeColor(start % generator.getGraphSize()[0], start / generator.getGraphSize()[1], c);
+                start = dj.list[start];
+            }
+
+            DJ = true;
+            startNode = start;
+        } else {
+            DJ = true;
+            startNode = start;
+            dj = new DjikstraAlgorithm();
+
+            dj.dj(start, generator);
+            double[] djPath = dj.distances;
+
+            drawDj(djPath, generator.getGraphSize()[0], generator.getGraphSize()[1], dj.getMaxWeight());
+
+        }
 
     }
 
@@ -212,8 +249,10 @@ public class MainSceneController implements Initializable {
         try {
             gc = nodesArt.getGraphicsContext2D();
 
+            DJ = false;
+
             generator = new Generator();
-            generator.generate(10, 5, 0, 10);
+            generator.generate(5, 5, 0, 10);
 
             double range = generator.getGraphRange()[1] - generator.getGraphRange()[0];
 
@@ -234,10 +273,8 @@ public class MainSceneController implements Initializable {
 
         for (int a = 0; a < i; a++) {
             for (int b = 0; b < j; b++) {
-                Color c = Color.hsb(255 - (255 / max) * dj[i * b + a], 1.0, 1.0);
+                Color c = Color.hsb(255 - (255 / max) * (-1 * dj[i * b + a]), 1.0, 1.0);
                 changeNodeColor(a, b, c);
-                // System.out.println(dj[i * b + j] + " data " + (255 - (255 / max) * dj[i * b +
-                // j]));
             }
 
         }

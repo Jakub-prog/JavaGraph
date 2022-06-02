@@ -3,12 +3,16 @@ package javagraph.nodeManager;
 public class GraphNode {
     private int[] NodeNumber;
     private double[] NodeWeight;
+    public int Id;
     public boolean visited;
+    public double distance = 0;
 
-    public GraphNode(double NodeWeight[], int NodeNumber[], boolean visited) {
+    public GraphNode(double NodeWeight[], int NodeNumber[], boolean visited, int Id) {
         this.NodeNumber = NodeNumber;
         this.NodeWeight = NodeWeight;
         this.visited = visited;
+        this.Id = Id;
+
     }
 
     public int getNodeNum(int i) {

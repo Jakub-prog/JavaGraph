@@ -1,104 +1,137 @@
 package javagraph.algorithms;
 
 import javagraph.nodeManager.Generator;
+import javagraph.nodeManager.GraphNode;
 
 import java.util.Arrays;
+import java.util.PriorityQueue;
 
 public class DjikstraAlgorithm {
 
+    private static final int INFI = 99999999;
     private double MaxWeight = 0;
+    public double[] distances;
+    public int[] list;
 
     public double getMaxWeight() {
         return MaxWeight;
     }
 
-    private int readFromStream(int actNumber, int lineNumber, int colNumber) {
+    public void dj(int starting_node, Generator graph) {
 
-        if (actNumber - lineNumber == colNumber)
-            return 3; // dol
-        if (actNumber - lineNumber == -colNumber)
-            return 2; // gora
-        if (actNumber - lineNumber == 1)
-            return 1; // prawo
-        if (actNumber - lineNumber == -1)
-            return 0; // lewo
+        int nodesAmount = graph.getGraphSize()[0] * graph.getGraphSize()[1];
+        distances = new double[graph.getGraphSize()[0] * graph.getGraphSize()[1]];
+        list = new int[nodesAmount];
 
-        return -1;
-
-    }
-
-    private int convertNeighbourToIndex(int current, int neighbour, int size) {
-        int x = readFromStream(neighbour, current, size);
-        if (x == 3) {
-            neighbour = current + size;
-        }
-        if (x == 2) {
-            neighbour = current - size;
-        }
-        if (x == 1) {
-            neighbour = current + 1;
-        }
-        if (x == 0) {
-            neighbour = current - 1;
-        }
-        return neighbour;
-    }
-
-    public double[] dj(int start, Generator graph) {
-
-        double[] distances = new double[graph.getGraphSize()[0] * graph.getGraphSize()[1]];
         Arrays.fill(distances, Integer.MAX_VALUE);
-        distances[start] = 0;
-        boolean[] visited = new boolean[graph.getGraphSize()[0] * graph.getGraphSize()[1]];
 
-        while (true) {
-            double shortestDistance = Integer.MAX_VALUE;
-            int shortestIndex = -1;
-            for (int i = 0; i < graph.getGraphSize()[0] * graph.getGraphSize()[1]; i++) {
-                if (distances[i] < shortestDistance && !visited[i]) {
-                    shortestDistance = distances[i];
-                    shortestIndex = i;
-                }
+        PriorityQueue<GraphNode> que = new PriorityQueue<GraphNode>(nodesAmount, new NodeComparator());
+
+        for (int i = 0; i < nodesAmount; i++) {
+
+            distances[i] = -1 * INFI;
+            graph.getNodeList().get(i).distance = -1 * INFI;
+
+            list[i] = -1;
+
+            if (i == starting_node) {
+                distances[i] = 0;
+                que.add(graph.getNodeList().get(i));
             }
 
-            // System.out.println("Visiting node " + shortestIndex + " with current distance
-            // " + shortestDistance);
+            // printf("dodaje %g z elementu: %d\t %d \n ", dist[i].w, dist[i].e, i);
+        }
 
-            if (shortestIndex == -1) {
-                // System.out.println("Visited nodes: " + Arrays.toString(visited));
-                // System.out.println("Currently lowest distances: " +
-                // Arrays.toString(distances));
-                return distances;
-            }
+        while (!que.isEmpty()) {
+            GraphNode node = que.remove(); // zwracam node z najmniejszym distance (w)
+            // System.out.println(node.Id + " " + "data");
+
+            if (node.visited)
+                continue;
 
             for (int i = 0; i < 4; i++) {
-                int current = graph.getNodeList().get(shortestIndex).getNodeNum(i);
-
-                // System.out.println("data " + current);
-
-                if (current != -1 && distances[current] > distances[shortestIndex]
-                        + graph.getNodeList().get(shortestIndex).getNodeWeight(i)) {
-
-                    distances[current] = distances[shortestIndex]
-                            + graph.getNodeList().get(shortestIndex).getNodeWeight(i);
-
-                    if (distances[current] > MaxWeight) {
-                        MaxWeight = distances[current];
-                    }
-
-                    // System.out.println("Updating distance of node "
-                    // + convertNeighbourToIndex(shortestIndex, current, graph.getGraphSize()[0]) +
-                    // " to "
-                    // + distances[convertNeighbourToIndex(shortestIndex, current,
-                    // graph.getGraphSize()[0])]);
+                if (node.getNodeNum(i) == -1 || node.visited) {
+                    // printf("do node: %d istnieje: %d\t %d \n",
+                    // nodes[nodes[node.e].nodeNumber[i]].visited, nodes[node.e].nodeNumber[i], i);
+                    continue;
                 }
-            }
-            visited[shortestIndex] = true;
-            // System.out.println("Visited nodes: " + Arrays.toString(visited));
-            // System.out.println("Currently lowest distances: " +
-            // Arrays.toString(distances));
+                // printf("do node: %d istnieje: %d\t %d \n", node.e,
+                // nodes[node.e].nodeNumber[i], i);
 
+                double newDist = node.getNodeWeight(i) + -1 * distances[node.Id];
+
+                // printf("New dist: %g Old: %g \n", newDist,
+                // -1*dist[nodes[node.e].nodeNumber[i]].w);
+
+                if (newDist < -1 * distances[node.getNodeNum(i)]) {
+                    distances[node.getNodeNum(i)] = newDist * -1;
+                    list[node.getNodeNum(i)] = node.Id; // dodaje potomka, aby potem wyswietlic scieżke
+                }
+
+                if (newDist > MaxWeight) {
+                    MaxWeight = newDist;
+                }
+
+                que.add(graph.getNodeList().get(node.getNodeNum(i)));
+            }
+
+            node.visited = true; // zwrocony node oznaczony jako odwiedzony
+
+            // printf("Wyjęto %g z elementu: %d\n", -1*node.w, node.e);
         }
+
+        System.out.println("Visited nodes: " + Arrays.toString(list));
+
+        // while (true) {
+        // double shortestDistance = Integer.MAX_VALUE;
+        // int shortestIndex = -1;
+        // for (int i = 0; i < graph.getGraphSize()[0] * graph.getGraphSize()[1]; i++) {
+        // if (distances[i] < shortestDistance && !visited[i]) {
+        // shortestDistance = distances[i];
+        // shortestIndex = i;
+        // }
+        // }
+
+        // // System.out.println("Visiting node " + shortestIndex + " with current
+        // distance
+        // // " + shortestDistance);
+
+        // if (shortestIndex == -1) {
+        // // System.out.println("Visited nodes: " + Arrays.toString(visited));
+        // // System.out.println("Currently lowest distances: " +
+        // // Arrays.toString(distances));
+        // return distances;
+        // }
+
+        // for (int i = 0; i < 4; i++) {
+        // int current = graph.getNodeList().get(shortestIndex).getNodeNum(i);
+
+        // // System.out.println("data " + current);
+
+        // if (current != -1 && distances[current] > distances[shortestIndex]
+        // + graph.getNodeList().get(shortestIndex).getNodeWeight(i)) {
+
+        // distances[current] = distances[shortestIndex]
+        // + graph.getNodeList().get(shortestIndex).getNodeWeight(i);
+
+        // if (distances[current] > MaxWeight) {
+        // MaxWeight = distances[current];
+        // }
+
+        // // System.out.println("Updating distance of node "
+        // // + convertNeighbourToIndex(shortestIndex, current, graph.getGraphSize()[0])
+        // +
+        // // " to "
+        // // + distances[convertNeighbourToIndex(shortestIndex, current,
+        // // graph.getGraphSize()[0])]);
+        // }
+        // }
+        // visited[shortestIndex] = true;
+        // // System.out.println("Visited nodes: " + Arrays.toString(visited));
+        // // System.out.println("Currently lowest distances: " +
+        // // Arrays.toString(distances));
+
+        // }
 
     }
 

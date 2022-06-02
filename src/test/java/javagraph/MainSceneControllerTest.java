@@ -57,7 +57,7 @@ public class MainSceneControllerTest {
         List<GraphNode> nodeList = new ArrayList<>();
         double weight[] = new double[4];
         int NodeNumber[] = { 1, 1, 1, 1 };
-        GraphNode node = new GraphNode(weight, NodeNumber, false);
+        GraphNode node = new GraphNode(weight, NodeNumber, false, 10);
         nodeList.add(node);
 
         int numberOfColumns = 10;
@@ -84,7 +84,7 @@ public class MainSceneControllerTest {
         List<GraphNode> nodeList = new ArrayList<>();
         double weight[] = new double[4];
         int NodeNumber[] = { 1, 1, 1, 1 };
-        GraphNode node = new GraphNode(weight, NodeNumber, false);
+        GraphNode node = new GraphNode(weight, NodeNumber, false, 10);
         nodeList.add(node);
 
         int numberOfColumns = 0;

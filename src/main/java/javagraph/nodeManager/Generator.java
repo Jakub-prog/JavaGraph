@@ -24,6 +24,18 @@ public class Generator {
         return graphRange;
     }
 
+    public void setNodeList(List<GraphNode> l) {
+        nodesArr = l;
+    }
+
+    public void setGraphSize(int[] i) {
+        graphSize = i;
+    }
+
+    public void setGraphRange(double[] d) {
+        graphRange = d;
+    }
+
     public void generate(int a, int b, double range_a, double range_b) throws IOException {
 
         if (a < 0 || b < 0 || (a == 0 && b == 0))
@@ -38,6 +50,7 @@ public class Generator {
         graphRange[1] = range_b;
         Random rand = new Random();
         double range = range_b - range_a;
+        int id = 0;
 
         for (int i = 0; i < b; i++) {
             for (int j = 0; j < a; j++) {
@@ -65,7 +78,8 @@ public class Generator {
                     NodeNumber[3] = (i + 1) * a + j;
                 }
 
-                nodesArr.add(new GraphNode(weight, NodeNumber, false));
+                nodesArr.add(new GraphNode(weight, NodeNumber, false, id));
+                id++;
             }
         }
 
