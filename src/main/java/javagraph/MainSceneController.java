@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javagraph.algorithms.DjikstraAlgorithm;
 import javagraph.fileManager.*;
 import javagraph.nodeManager.*;
 
@@ -192,6 +193,13 @@ public class MainSceneController implements Initializable {
 
         changeNodeColor(xposition, yposition);
 
+        int start = (int) (yposition * generator.getGraphSize()[0] + xposition);
+        System.out.println(start);
+
+        DjikstraAlgorithm dj = new DjikstraAlgorithm();
+
+        dj.dj(start, generator);
+
     }
 
     @FXML
@@ -211,7 +219,7 @@ public class MainSceneController implements Initializable {
             gc = nodesArt.getGraphicsContext2D();
 
             generator = new Generator();
-            generator.generate(15, 5, 0, 10);
+            generator.generate(10, 5, 0, 10);
 
             double range = generator.getGraphRange()[1] - generator.getGraphRange()[0];
 
