@@ -52,15 +52,11 @@ public class DjikstraAlgorithm {
                     continue;
                 }
 
-                double newDist = node.getNodeWeight(i) + -1 * distances[node.Id];
+                double newDist = node.getNodeWeight(i) + -1.0 * distances[node.Id];
 
-                if (newDist < -1 * distances[node.getNodeNum(i)]) {
+                if (newDist < -1.0 * distances[node.getNodeNum(i)]) {
                     distances[node.getNodeNum(i)] = newDist * -1;
                     list[node.getNodeNum(i)] = node.Id; // dodaje potomka, aby potem wyswietlic scieżke
-                }
-
-                if (newDist > MaxWeight) {
-                    MaxWeight = newDist;
                 }
 
                 que.add(graph.getNodeList().get(node.getNodeNum(i)));
@@ -68,6 +64,12 @@ public class DjikstraAlgorithm {
 
             node.visited = true; // zwrocony node oznaczony jako odwiedzony
 
+        }
+
+        for (double d : distances) {
+            if (d * -1.0 > MaxWeight) {
+                MaxWeight = d * -1.0;
+            }
         }
 
     }

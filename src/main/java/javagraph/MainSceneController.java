@@ -97,6 +97,7 @@ public class MainSceneController implements Initializable {
         gc.clearRect(0, 0, nodesArt.getWidth(), nodesArt.getHeight());
         setMessage("Wyczyszczono");
         nodesArr = null;
+        DJ = false;
     }
 
     @FXML
@@ -109,6 +110,7 @@ public class MainSceneController implements Initializable {
             generator.generate(values[0], values[1], values[2], values[3]);
             setMessage("");
             nodesArr = null;
+            DJ = false;
 
         } catch (Exception e) {
             setMessage(e.getMessage());
@@ -118,7 +120,7 @@ public class MainSceneController implements Initializable {
 
     @FXML
     void btnOpenFromFileClicked(ActionEvent event) {
-
+        DJ = false;
         try {
 
             openPopUp Popup = new openPopUp();
@@ -134,9 +136,9 @@ public class MainSceneController implements Initializable {
                 nodesArr = newGraph.getNodeList();
 
                 draw(newGraph.getGraphSize()[0], newGraph.getGraphSize()[1], newGraph.getNodeList(), range);
-                DJ = false;
+
             }
-            setMessage("");
+            setMessage("Opening from file");
 
         } catch (Exception e) {
             setMessage(e.getMessage());
@@ -193,37 +195,25 @@ public class MainSceneController implements Initializable {
         double xposition = Math.floor(x / (ovalWidth * 1.2));
         double yposition = Math.floor(y / (ovalWidth * 1.2));
 
-        int start = (int) (yposition * generator.getGraphSize()[0] + xposition);
-
         if (nodesArr != null) {
             generator.setGraphRange(newGraph.getGraphRange());
             generator.setGraphSize(newGraph.getGraphSize());
             generator.setNodeList(newGraph.getNodeList());
-
         }
 
+        int start = (int) (yposition * generator.getGraphSize()[0] + xposition);
+
         if (DJ) {
-
-            // System.out.println(start);
-            // System.out.println(":" + generator.getGraphSize()[0] + " " +
-            // generator.getGraphSize()[1]);
-
             Color c = Color.BLACK;
-            changeNodeColor(start % generator.getGraphSize()[0], start / generator.getGraphSize()[1], c);
-            // System.out.println(" - > " + start + " " + start /
-            // generator.getGraphSize()[0] + " "
-            // + start % generator.getGraphSize()[1]);
+            changeNodeColor(start % generator.getGraphSize()[0], start / generator.getGraphSize()[0], c);
             start = dj.list[start];
             while (start != -1) {
-                // System.out.println(" - > " + start + " " + start %
-                // generator.getGraphSize()[0] + " "
-                // + start / generator.getGraphSize()[1]);
-                changeNodeColor(start % generator.getGraphSize()[0], start / generator.getGraphSize()[1], c);
+                changeNodeColor(start % generator.getGraphSize()[0], start / generator.getGraphSize()[0], c);
                 start = dj.list[start];
             }
 
-            DJ = true;
         } else {
+
             DJ = true;
             dj = new DjikstraAlgorithm();
 
@@ -276,8 +266,9 @@ public class MainSceneController implements Initializable {
 
         for (int a = 0; a < i; a++) {
             for (int b = 0; b < j; b++) {
-                Color c = Color.hsb(255 - (255 / max) * (-1 * dj[i * b + a]), 1.0, 1.0);
+                Color c = Color.hsb(255 - (255 / max) * (-1.0 * dj[i * b + a]), 1.0, 1.0);
                 changeNodeColor(a, b, c);
+
             }
 
         }
@@ -311,9 +302,6 @@ public class MainSceneController implements Initializable {
                 gc.setLineWidth(2);
 
                 GraphNode node = nodeList.get(numberOfRows * j + i);
-
-                // System.out.println("data: " + node.getNodeWeight(1) + " " +
-                // node.getNodeWeight(3));
 
                 if (i < numberOfRows - 1) {
 
