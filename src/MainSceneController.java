@@ -94,12 +94,17 @@ public class MainSceneController implements Initializable {
         savePopUp Popup = new savePopUp();
         String fileName = Popup.display();
 
+        openPopUp openpop = new openPopUp();
+        String newFiles = openpop.display();
+
         if (fileName != null) {
 
             newGraph = new openNode();
             fileName += ".txt";
             newGraph.readFile(fileName);
-            draw(newGraph.getGraphSize()[0], newGraph.getGraphSize()[1]);
+            double range = newGraph.getGraphRange()[1] - newGraph.getGraphRange()[0];
+
+            draw(newGraph.getGraphSize()[0], newGraph.getGraphSize()[1], newGraph.getNodeList(), range);
         }
     }
 
@@ -109,7 +114,8 @@ public class MainSceneController implements Initializable {
         int values[] = readFromArea();
         generator = new Generator();
         generator.generate(values[0], values[1], values[2], values[3]);
-        draw(values[0], values[1]);
+        double range = generator.getGraphRange()[1] - generator.getGraphRange()[0];
+        draw(generator.getGraphSize()[0], generator.getGraphSize()[1], generator.getNodeList(), range);
 
     }
 
@@ -134,14 +140,16 @@ public class MainSceneController implements Initializable {
         double x = event.getX();
         double y = event.getY();
 
-        long xposition = Math.round(x / (ovalWidth * 2));
-        long yposition = Math.round(y / (ovalWidth * 2));
+        double xposition = Math.floor(x / (ovalWidth * 1.2));
+        double yposition = Math.floor(y / (ovalWidth * 1.2));
 
-        System.out.println("Rozmiar x:");
-        System.out.println(xposition);
+        // System.out.println("Rozmiar x:" + x);
+        // System.out.println(xposition);
 
-        System.out.println("Rozmiar y:");
-        System.out.println(yposition);
+        // System.out.println("Rozmiar y:" + y);
+        // System.out.println(yposition);
+
+        changeNodeColor(xposition, yposition);
 
     }
 
@@ -159,36 +167,29 @@ public class MainSceneController implements Initializable {
     public void initialize(URL arg0, ResourceBundle arg1) {
 
         gc = nodesArt.getGraphicsContext2D();
-        gc.setFill(Color.WHITE);
 
         generator = new Generator();
-        generator.generate(5, 5, 0, 10);
+        generator.generate(15, 5, 0, 10);
 
-        newGraph = new openNode();
-        newGraph.readFile("example.txt");
+        double range = generator.getGraphRange()[1] - generator.getGraphRange()[0];
 
-        draw(3, 3);
+        draw(generator.getGraphSize()[0], generator.getGraphSize()[1], generator.getNodeList(), range);
 
     }
 
-    public void draw(int numberOfRows, int numberOfColumns) {
+    public void draw(int numberOfRows, int numberOfColumns, List<Node> nodeList, double range) {
 
         gc.clearRect(0, 0, nodesArt.getWidth(), nodesArt.getHeight());
         if (numberOfColumns < numberOfRows)
-            ovalWidth = 900 / (numberOfRows + numberOfRows - 1);
+            ovalWidth = 900 / (numberOfRows * 1.2);
         else if (numberOfColumns >= numberOfRows)
-            ovalWidth = 900 / (numberOfColumns + numberOfColumns - 1);
+            ovalWidth = 900 / (numberOfColumns * 1.2);
 
-        // List<Node> nodeList = generator.getNodeList();
-
-        // double range = generator.getGraphRange()[1] - generator.getGraphRange()[0];
-
-        List<Node> nodeList = newGraph.getNodeList();
-        double range = 10;
+        gc.setFill(Color.GREY);
 
         for (int j = 0; j < numberOfColumns; j++) {
             for (int i = 0; i < numberOfRows; i++) {
-                gc.fillOval(i * 2 * ovalWidth, j * 2 * ovalWidth, ovalWidth, ovalWidth);
+                gc.fillOval(i * 1.2 * ovalWidth, j * 1.2 * ovalWidth, ovalWidth, ovalWidth);
 
                 gc.setStroke(Color.BLUE);
                 gc.setLineWidth(2);
@@ -200,22 +201,29 @@ public class MainSceneController implements Initializable {
                     Color c = Color.hsb(255 - (255 / range) * node.getNodeWeight(1), 1.0, 1.0);
 
                     gc.setStroke(c);
-                    gc.strokeLine(i * 2 * ovalWidth + ovalWidth, j * 2 * ovalWidth + ovalWidth * 0.5,
-                            (i + 1) * 2 * ovalWidth,
-                            j * 2 * ovalWidth + ovalWidth * 0.5);
+                    gc.strokeLine(i * 1.2 * ovalWidth + ovalWidth, j * 1.2 * ovalWidth + ovalWidth *
+                            0.5,
+                            (i + 1) * 1.2 * ovalWidth,
+                            j * 1.2 * ovalWidth + ovalWidth * 0.5);
                 }
 
                 if (j < numberOfColumns - 1) {
                     Color c = Color.hsb(255 - (255 / range) * node.getNodeWeight(3), 1.0, 1.0);
 
                     gc.setStroke(c);
-                    gc.strokeLine(i * 2 * ovalWidth + ovalWidth * 0.5, j * 2 * ovalWidth + ovalWidth,
-                            i * 2 * ovalWidth + ovalWidth * 0.5,
-                            (j + 1) * 2 * ovalWidth + ovalWidth);
+                    gc.strokeLine(i * 1.2 * ovalWidth + ovalWidth * 0.5, j * 1.2 * ovalWidth +
+                            ovalWidth,
+                            i * 1.2 * ovalWidth + ovalWidth * 0.5,
+                            (j + 1) * 1.2 * ovalWidth + ovalWidth);
                 }
 
             }
         }
+    }
+
+    public void changeNodeColor(double i, double j) {
+        gc.setFill(Color.BLUE);
+        gc.fillOval(i * 1.2 * ovalWidth, j * 1.2 * ovalWidth, ovalWidth, ovalWidth);
     }
 
     public int[] readFromArea() {

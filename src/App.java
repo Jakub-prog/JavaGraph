@@ -18,7 +18,7 @@ public class App extends Application {
             String css = this.getClass().getResource("aplication.css").toExternalForm();
             scene.getStylesheets().add(css);
 
-            primaryStage.setTitle("CipherApp");
+            primaryStage.setTitle("GraphApp");
             primaryStage.setScene(scene);
             primaryStage.show();
 
