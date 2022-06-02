@@ -6,6 +6,12 @@ import java.util.Arrays;
 
 public class DjikstraAlgorithm {
 
+    private double MaxWeight = 0;
+
+    public double getMaxWeight() {
+        return MaxWeight;
+    }
+
     private int readFromStream(int actNumber, int lineNumber, int colNumber) {
 
         if (actNumber - lineNumber == colNumber)
@@ -59,9 +65,9 @@ public class DjikstraAlgorithm {
             // " + shortestDistance);
 
             if (shortestIndex == -1) {
-                System.out.println("Visited nodes: " + Arrays.toString(visited));
-                System.out.println("Currently lowest distances: " +
-                        Arrays.toString(distances));
+                // System.out.println("Visited nodes: " + Arrays.toString(visited));
+                // System.out.println("Currently lowest distances: " +
+                // Arrays.toString(distances));
                 return distances;
             }
 
@@ -72,8 +78,13 @@ public class DjikstraAlgorithm {
 
                 if (current != -1 && distances[current] > distances[shortestIndex]
                         + graph.getNodeList().get(shortestIndex).getNodeWeight(i)) {
+
                     distances[current] = distances[shortestIndex]
                             + graph.getNodeList().get(shortestIndex).getNodeWeight(i);
+
+                    if (distances[current] > MaxWeight) {
+                        MaxWeight = distances[current];
+                    }
 
                     // System.out.println("Updating distance of node "
                     // + convertNeighbourToIndex(shortestIndex, current, graph.getGraphSize()[0]) +

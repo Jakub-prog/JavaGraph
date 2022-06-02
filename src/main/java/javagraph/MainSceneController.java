@@ -191,14 +191,16 @@ public class MainSceneController implements Initializable {
         // System.out.println("Rozmiar y:" + y);
         // System.out.println(yposition);
 
-        changeNodeColor(xposition, yposition);
+        // changeNodeColor(xposition, yposition);
 
         int start = (int) (yposition * generator.getGraphSize()[0] + xposition);
         System.out.println(start);
 
         DjikstraAlgorithm dj = new DjikstraAlgorithm();
 
-        dj.dj(start, generator);
+        double[] djPath = dj.dj(start, generator);
+
+        drawDj(djPath, generator.getGraphSize()[0], generator.getGraphSize()[1], dj.getMaxWeight());
 
     }
 
@@ -234,6 +236,18 @@ public class MainSceneController implements Initializable {
 
     public void setMessage(String s) {
         MessageTextField.setText(s);
+    }
+
+    public void drawDj(double[] dj, int i, int j, double max) {
+
+        for (int a = 0; a < i; a++) {
+            for (int b = 0; b < j; b++) {
+                Color c = Color.hsb(255 - (255 / max) * dj[i * b + a], 1.0, 1.0);
+                changeNodeColor(a, b, c);
+                System.out.println(dj[i * b + j] + " data " + (255 - (255 / max) * dj[i * b + j]));
+            }
+
+        }
     }
 
     public void draw(int numberOfRows, int numberOfColumns, List<GraphNode> nodeList, double range)
@@ -293,8 +307,8 @@ public class MainSceneController implements Initializable {
         }
     }
 
-    public void changeNodeColor(double i, double j) {
-        gc.setFill(Color.BLUE);
+    public void changeNodeColor(double i, double j, Color c) {
+        gc.setFill(c);
         gc.fillOval(i * 1.2 * ovalWidth, j * 1.2 * ovalWidth, ovalWidth, ovalWidth);
     }
 
