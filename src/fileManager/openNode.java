@@ -14,7 +14,7 @@ public class openNode {
     private List<Node> nodesArr = new ArrayList<>();
 
     private int[] graphSize = new int[2];
-    private double[] graphRange = new double[2];
+    private double[] graphRange = { 99999999, 0 };
 
     public List<Node> getNodeList() {
         return nodesArr;
@@ -62,6 +62,7 @@ public class openNode {
                     if (lineScanner.hasNextInt()) {
                         int data = lineScanner.nextInt();
                         i = readFromStream(data, lineNumber, graphSize[0]);
+
                         if (i != -1)
                             NodeNumber[i] = data;
 
@@ -69,7 +70,17 @@ public class openNode {
 
                     if (lineScanner.hasNextDouble()) {
                         double Doubledata = lineScanner.nextDouble();
-                        weight[i] = Doubledata;
+
+                        if (i != -1) {
+                            weight[i] = Doubledata;
+                            if (Doubledata > graphRange[1]) {
+                                graphRange[1] = Doubledata;
+
+                            }
+                            if (Doubledata <= graphRange[0]) {
+                                graphRange[0] = Doubledata;
+                            }
+                        }
 
                     }
 

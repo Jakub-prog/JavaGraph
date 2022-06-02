@@ -31,30 +31,30 @@ public class Generator {
         Random rand = new Random();
         double range = range_b - range_a;
 
-        for (int i = 0; i < a; i++) {
-            for (int j = 0; j < b; j++) {
+        for (int i = 0; i < b; i++) {
+            for (int j = 0; j < a; j++) {
                 double weight[] = new double[4];
                 int NodeNumber[] = { -1, -1, -1, -1 };
 
                 // lewa
-                if (j % b != 0) {
+                if (j != 0) {
                     weight[0] = rand.nextDouble(range) + range_a;
-                    NodeNumber[0] = i * b + j - 1;
+                    NodeNumber[0] = i * a + j - 1;
                 }
                 // prawa
-                if ((j + 1) % b != 0) {
+                if ((j + 1) != a) {
                     weight[1] = rand.nextDouble(range) + range_a;
-                    NodeNumber[1] = i * b + j + 1;
+                    NodeNumber[1] = i * a + j + 1;
                 }
                 // gora
                 if (i != 0) {
                     weight[2] = rand.nextDouble(range) + range_a;
-                    NodeNumber[2] = (i - 1) * b + j;
+                    NodeNumber[2] = (i - 1) * a + j;
                 }
                 // dol
-                if ((i + 1) != a) {
+                if ((i + 1) != b) {
                     weight[3] = rand.nextDouble(range) + range_a;
-                    NodeNumber[3] = (i + 1) * b + j;
+                    NodeNumber[3] = (i + 1) * a + j;
                 }
 
                 nodesArr.add(new Node(weight, NodeNumber, false));
