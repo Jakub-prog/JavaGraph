@@ -6,6 +6,7 @@ import javagraph.nodeManager.GraphNode;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
+
 public class DjikstraAlgorithm {
 
     private static final int INFI = 99999999;
@@ -16,7 +17,7 @@ public class DjikstraAlgorithm {
     public double getMaxWeight() {
         return MaxWeight;
     }
-
+ DJdraw
     public void dj(int starting_node, Generator graph) {
 
         int nodesAmount = graph.getGraphSize()[0] * graph.getGraphSize()[1];
@@ -73,5 +74,6 @@ public class DjikstraAlgorithm {
         }
 
     }
+
 
 }
