@@ -30,7 +30,7 @@ import javafx.scene.paint.Color;
 
 public class MainSceneController implements Initializable {
 
-    private static final double CANVAS_SIZE = 700;
+    private static final double CANVAS_SIZE = 800;
 
     @FXML
     private Label EdgeLabel;
@@ -81,7 +81,7 @@ public class MainSceneController implements Initializable {
     private TextField MessageTextField;
 
     @FXML
-    private Canvas nodesArt = new Canvas(900, 900);
+    private Canvas nodesArt = new Canvas(800, 800);
 
     private GraphicsContext gc;
     private double ovalWidth = 0;
@@ -372,6 +372,7 @@ public class MainSceneController implements Initializable {
             int rV[] = new int[4];
             rV[0] = -1;
             throw new IOException("Please provide correct data");
+
         }
     }
 
