@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="786.0" prefWidth="1015.0" styleClass="container" stylesheets="@aplication.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javagraph.MainSceneController">
     <children>
-        <FlowPane layoutY="14.0" prefHeight="58.0" prefWidth="1015.0">
+        <FlowPane layoutY="14.0" prefHeight="95.0" prefWidth="1024.0">
             <children>
                 <Label fx:id="EdgeLabel" prefHeight="25.0" prefWidth="139.0" text="Edge weight range:">
                     <FlowPane.margin>

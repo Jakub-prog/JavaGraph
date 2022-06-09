@@ -30,7 +30,7 @@ import javafx.scene.paint.Color;
 
 public class MainSceneController implements Initializable {
 
-    private static final double CANVAS_SIZE = 700;
+    private static final double CANVAS_SIZE = 500;
 
     @FXML
     private Label EdgeLabel;
@@ -81,7 +81,7 @@ public class MainSceneController implements Initializable {
     private TextField MessageTextField;
 
     @FXML
-    private Canvas nodesArt = new Canvas(900, 900);
+    private Canvas nodesArt = new Canvas(CANVAS_SIZE, CANVAS_SIZE);
 
     private GraphicsContext gc;
     private double ovalWidth = 0;

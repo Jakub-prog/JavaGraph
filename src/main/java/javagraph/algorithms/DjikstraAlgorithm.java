@@ -6,7 +6,6 @@ import javagraph.nodeManager.GraphNode;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
-
 public class DjikstraAlgorithm {
 
     private static final int INFI = 99999999;
@@ -17,7 +16,7 @@ public class DjikstraAlgorithm {
     public double getMaxWeight() {
         return MaxWeight;
     }
- DJdraw
+
     public void dj(int starting_node, Generator graph) {
 
         int nodesAmount = graph.getGraphSize()[0] * graph.getGraphSize()[1];
@@ -57,7 +56,7 @@ public class DjikstraAlgorithm {
 
                 if (newDist < -1.0 * distances[node.getNodeNum(i)]) {
                     distances[node.getNodeNum(i)] = newDist * -1;
-                    list[node.getNodeNum(i)] = node.Id; // dodaje potomka, aby potem wyswietlic scieżke
+                    list[node.getNodeNum(i)] = node.Id;
                 }
 
                 que.add(graph.getNodeList().get(node.getNodeNum(i)));
@@ -74,6 +73,5 @@ public class DjikstraAlgorithm {
         }
 
     }
-
 
 }
