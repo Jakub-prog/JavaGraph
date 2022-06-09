@@ -372,6 +372,7 @@ public class MainSceneController implements Initializable {
             int rV[] = new int[4];
             rV[0] = -1;
             throw new IOException("Please provide correct data");
+
         }
     }
 

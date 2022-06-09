@@ -38,7 +38,6 @@ public class DjikstraAlgorithm {
                 distances[i] = 0;
                 que.add(graph.getNodeList().get(i));
             }
-
         }
 
         while (!que.isEmpty()) {
@@ -63,7 +62,6 @@ public class DjikstraAlgorithm {
             }
 
             node.visited = true; // zwrocony node oznaczony jako odwiedzony
-
         }
 
         for (double d : distances) {
@@ -71,7 +69,5 @@ public class DjikstraAlgorithm {
                 MaxWeight = d * -1.0;
             }
         }
-
     }
-
 }
